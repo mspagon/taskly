@@ -41,3 +41,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
+
+    def save(self, **kwargs):
+        self.email = BaseUserManager.normalize_email(self.email)
+        super().save(**kwargs)
