@@ -49,3 +49,18 @@ class TestUserModel(TestCase):
         )
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
+
+
+class TestTaskModel(TestCase):
+    """Test cases for the tasks model."""
+
+    def setUp(self):
+        self.user = get_user_model().objects.create_user(email='test@example.com', password='securepassword909')
+
+    def test_create_task(self):
+        """Test creating a task is successful."""
+        task = models.Task.objects.create(
+            user=self.user,
+            title='Walk the dog',
+        )
+        self.assertEqual(str(task), task.title)
