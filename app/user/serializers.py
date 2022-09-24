@@ -26,6 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
         if password:
             user.set_password(password)
             user.save()
+            # TODO (mspagon@gmail.com): user.save(using=self._db) <--- should it be this?
         return user
 
 

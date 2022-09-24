@@ -50,10 +50,10 @@ class Task(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
-    title = models.CharField(max_length=255),
-    description = models.TextField(blank=True),
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
     time_created = models.DateTimeField(auto_now_add=True)
-    time_completed = models.DateTimeField(default=None)
+    time_completed = models.DateTimeField(null=True, blank=True)
     is_completed = models.BooleanField(default=False)
 
     def __str__(self):
