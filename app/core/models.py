@@ -1,6 +1,7 @@
 """
 Database models.
 """
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -42,6 +43,31 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
 
-    def save(self, **kwargs):
+
+class Task(models.Model):
+    """Task object."""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_completed = models.DateTimeField(null=True, blank=True)
+    date_due = models.DateTimeField(null=True, blank=True)
+
+    is_completed = models.BooleanField(default=False)
+
+    def clean(self):
+        """Custom validation logic."""
+        pass
+
+    def save(self, *args, **kwargs):
+        """Custom save logic."""
+        self.full_clean()
         self.email = BaseUserManager.normalize_email(self.email)
-        super().save(**kwargs)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
