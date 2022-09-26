@@ -20,10 +20,10 @@ class TaskSerializer(serializers.ModelSerializer):
         """Update and return task."""
         is_completed = validated_data.pop('is_completed', instance.is_completed)
         if is_completed is True and instance.is_completed is False:
-            instance.date_completed = timezone.now()
+            validated_data['date_completed'] = timezone.now()
             instance.is_completed = True
         if is_completed is False and instance.is_completed is True:
-            instance.date_completed = None
+            validated_data['date_completed'] = None
             instance.is_completed = False
         task = super().update(instance, validated_data)
         return task
