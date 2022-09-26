@@ -43,6 +43,16 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
 
+    def clean(self):
+        """Custom validation logic."""
+        pass
+
+    def save(self, *args, **kwargs):
+        """Custom save logic."""
+        # self.full_clean()
+        self.email = BaseUserManager.normalize_email(self.email)
+        super().save(*args, **kwargs)
+
 
 class Task(models.Model):
     """Task object."""
@@ -65,8 +75,7 @@ class Task(models.Model):
 
     def save(self, *args, **kwargs):
         """Custom save logic."""
-        self.full_clean()
-        self.email = BaseUserManager.normalize_email(self.email)
+        # self.full_clean()
         super().save(*args, **kwargs)
 
     def __str__(self):
