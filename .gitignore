@@ -133,6 +133,3 @@ dmypy.json
 
 # MAC
 *.DS_Store
-
-# Migrations
-app/core/migrations/
