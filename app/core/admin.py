@@ -44,6 +44,18 @@ class UserAdmin(BaseUserAdmin):
         }),
     )
 
+    def save_model(self, request, obj, form, change):
+        """Custom logic for modifications made in admin page."""
+        super().save_model(request, obj, form, change)
+
 
 admin.site.register(models.User, UserAdmin)
-admin.site.register(models.Task)
+
+
+@admin.register(models.Task)
+class TaskAdmin(admin.ModelAdmin):
+    ordering = ['date_created']
+    list_display = ['title', 'date_created', 'date_due', 'id', 'is_completed']
+    readonly_fields = ['user', 'date_created']
+    list_filter = ('is_completed', 'date_created', 'date_completed', 'date_due')
+    fields = ('title', 'description', 'date_created', 'date_due', 'date_completed', 'is_completed', 'user')
