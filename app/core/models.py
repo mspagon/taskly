@@ -66,6 +66,7 @@ class Task(models.Model):
     def save(self, *args, **kwargs):
         """Custom save logic."""
         self.full_clean()
+        self.email = BaseUserManager.normalize_email(self.email)
         super().save(*args, **kwargs)
 
     def __str__(self):
